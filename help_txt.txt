@@ -1,0 +1,17 @@
+You play Cribbage against the computer.
+The computer has a simple AI to calculate it's 
+best hand and cards to play in the lay part of
+the game. The computer bases no decisions on cards held
+in your hand, i.e an honest game.
+To start add new player from the menu.
+You can have any number of users/players.
+Each players stats are recorded and can 
+viewed from the stats overview menu
+or in graph form from the graph
+menu.
+Players can be deleted from the menu.
+Q to quit during game play, stats are not recorded 
+unless the game is played to the end.
+
+
+
