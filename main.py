@@ -10,7 +10,7 @@ from game_classes import HandState, LayCards
 from calc_utils import define_deck, dealer_select, hand_sort, lay_score_calc
 from lay_end_utils import score_master
 from lay_end_score_window import LayEndScoreWindow
-from comp_lay_select import lay_card_calc
+from comp_lay_select_V2 import lay_card_calc
 from comp_hand_calc import comp_hand_select
 from game_stats import GameStats
 
