@@ -64,7 +64,7 @@ class LayEndScoreWindow:
     def next_data(self):
         self.score_flag = self.step_indx
         if self.step_indx == self.hnd_cnt:
-            self.next_btn.setText('Close')
+            self.next_btn.setText('Continue')
             self.next_btn.disconnect()
             self.next_btn.clicked.connect(self.close_continue)
             self.timer = QTimer(interval=400)

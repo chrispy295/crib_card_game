@@ -4,9 +4,6 @@ from calc_utils import lay_score_calc, pip_convert, face_convert, define_deck
 
 def lay_card_calc(l_pips, l_faces, hand):
     lt = sum(l_faces)       # lay cards sum total
-    print('lt', lt)
-    print('lpips/faces', l_pips, l_faces)
-    print('hand', hand)
     h_pips = pip_convert(hand)
     h_faces = face_convert(hand)
     if len(hand) == 1:
@@ -57,7 +54,7 @@ def lay_card_calc(l_pips, l_faces, hand):
             card = random.choice(hand)
             return card
     else:
-        list_safe = [fce for fce in h_faces if lt + fce != 10 and lt + fce != 21 and lt + fce != 26]
+        list_safe = [fce for fce in h_faces if lt + fce != 5 and lt + fce != 10 and lt + fce != 21 and lt + fce != 26]
         list_safe_pairs = [fce for fce in list_safe if list_safe.count(fce) >= 2 and lt + (3 * fce) <= 31]
         list_safe_5 = [fce for fce in h_faces if lt + fce != 10 and lt + fce != 21 and lt + fce != 26 and fce <= 5]
         score_list = []
@@ -120,7 +117,7 @@ def card_select_brute(l_pips, l_faces, hand, h_pips, h_faces):
         for y in range(len(card_pips)):
             composite_pips = [l_pips[-1], h_pips[x], card_pips[y]]
             composite_faces = [l_faces[-1], h_faces[x], card_faces[y]]
-            if sum(composite_faces) > 31 and h_faces[x] + lt != 10 and h_faces[x] + lt != 21:
+            if sum(composite_faces) > 31 or h_faces[x] + lt == 10 and h_faces[x] + lt == 21:
                 continue
             else:
                 score = sum(lay_score_calc(composite_pips, composite_faces))

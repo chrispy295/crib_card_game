@@ -455,7 +455,7 @@ class CribBrd(QFrame):
         for point in self.polygon:
             cords = QPointF(point[0], point[1])
             brd.append(cords)
-        qp.setPen(QPen(QColor(85, 98, 10), 1, Qt.SolidLine))
+        qp.setPen(QPen(QColor(99, 30, 41), 2, Qt.SolidLine))
         qp.drawPolygon(brd)
         qp.end()
         qp = QPainter()
