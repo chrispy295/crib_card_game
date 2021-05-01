@@ -1,10 +1,12 @@
 import random
-import numpy as np
 from calc_utils import lay_score_calc, pip_convert, face_convert, define_deck
 
 
 def lay_card_calc(l_pips, l_faces, hand):
     lt = sum(l_faces)       # lay cards sum total
+    print('lt', lt)
+    print('lpips/faces', l_pips, l_faces)
+    print('hand', hand)
     h_pips = pip_convert(hand)
     h_faces = face_convert(hand)
     if len(hand) == 1:
@@ -67,6 +69,7 @@ def lay_card_calc(l_pips, l_faces, hand):
             l_pips.pop(-1)
             l_faces.pop(-1)
         scores_sum_tots_per_card = [sum(x) for x in score_list]
+        card_passive = card_select_brute(l_pips, l_faces, hand, h_pips, h_faces)
         if sum(scores_sum_tots_per_card) > 0:
             val = max(scores_sum_tots_per_card)
             if val > 2:
@@ -88,6 +91,8 @@ def lay_card_calc(l_pips, l_faces, hand):
             idx = h_faces.index(val)
             card = hand[idx]
             return card
+        elif card_passive:
+            return card_passive
         elif lt < 10 and len(list_safe_5) >= 2:
             val = random.choice(list_safe_5)
             idx = h_faces.index(val)
@@ -103,8 +108,31 @@ def lay_card_calc(l_pips, l_faces, hand):
             return card
 
 
-
-
+def card_select_brute(l_pips, l_faces, hand, h_pips, h_faces):
+    lt = sum(l_faces)
+    scores = []
+    scores_faces = []
+    card_pips = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+    card_faces = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+    for x in range(len(h_pips)):
+        sub_totals = []
+        scores_faces.append(h_faces[x])
+        for y in range(len(card_pips)):
+            composite_pips = [l_pips[-1], h_pips[x], card_pips[y]]
+            composite_faces = [l_faces[-1], h_faces[x], card_faces[y]]
+            if sum(composite_faces) > 31 and h_faces[x] + lt != 10 and h_faces[x] + lt != 21:
+                continue
+            else:
+                score = sum(lay_score_calc(composite_pips, composite_faces))
+                sub_totals.append(score)
+        scores.append(sum(sub_totals))
+    if scores:
+        low_val = min(scores)
+        idx = scores.index(low_val)
+        card = hand[idx]
+        return card
+    else:
+        return None
 
 
 if __name__ == '__main__':
@@ -112,9 +140,9 @@ if __name__ == '__main__':
     while count < 50:
         dek = define_deck()
         hnd = dek[:3]
-        lp = [10, 5, 9]
-        lf = [10, 5, 9]
+        lp = [4, 10]
+        lf = [4, 10]
         crd = lay_card_calc(lp, lf, hnd)
-        print('lp', lp, 'lf', lf, 'hand', hnd, '---', crd)
+        print('choice ', crd)
         print('========================')
         count += 1

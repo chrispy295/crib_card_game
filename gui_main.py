@@ -420,6 +420,8 @@ class CribBrd(QFrame):
         self.p2_peg_scores = [0]
         self.c1_peg_scores = [0]
         self.c2_peg_scores = [0]
+        self.c_score_master = [0]
+        self.p_score_master = [0]
         self.p_p_1_cords, self.p_p_2_cords, self.c_p_1_cords, self.c_p_2_cords = peg_board_score_ref()
         self.polygon = peg_board_outline()
         s_sheet = "color: red; font-size: 25px; background: transparent"
@@ -510,10 +512,11 @@ class CribBrd(QFrame):
                 else:
                     inter_cords = self.p_p_1_cords[start_indx:] + self.p_p_1_cords[:end_indx]
                 self.p_anim.peg_counter_move(self.p_peg_1, QPointF(cords[0] - 10, cords[1] - 15), inter_cords,
-                                             self.p_s_lbl, self.p2_peg_scores[0], p_score)
+                                             self.p_s_lbl, self.p_score_master[-1], p_score)
                 if len(self.p1_peg_scores) == 2:
                     self.p1_peg_scores.pop(0)
                 self.p_peg_turn = 0
+                self.p_score_master.append(p_score)
             else:
                 self.p2_peg_scores.append(end_indx)
                 start_indx = self.p2_peg_scores[0]
@@ -523,10 +526,11 @@ class CribBrd(QFrame):
                 else:
                     inter_cords = self.p_p_2_cords[start_indx:] + self.p_p_2_cords[:end_indx]
                 self.p_anim.peg_counter_move(self.p_peg_2, QPointF(cords[0] - 10, cords[1] - 15), inter_cords,
-                                             self.p_s_lbl, self.p1_peg_scores[0], p_score)
+                                             self.p_s_lbl, self.p_score_master[-1], p_score)
                 if len(self.p2_peg_scores) == 2:
                     self.p2_peg_scores.pop(0)
                 self.p_peg_turn = 1
+                self.p_score_master.append(p_score)
 
     def comp_move_peg_icon(self, c_score):
         if c_score > 120:
@@ -545,10 +549,11 @@ class CribBrd(QFrame):
                 else:
                     inter_cords = self.c_p_1_cords[start_indx:] + self.c_p_1_cords[:end_indx]
                 self.c_anim.peg_counter_move(self.c_peg_1, QPointF(cords[0] - 10, cords[1] - 15), inter_cords,
-                                             self.c_s_lbl, self.c2_peg_scores[0], c_score)
+                                             self.c_s_lbl, self.c_score_master[-1], c_score)
                 if len(self.c1_peg_scores) == 2:
                     self.c1_peg_scores.pop(0)
                 self.c_peg_turn = 0
+                self.c_score_master.append(c_score)
             else:
                 self.c2_peg_scores.append(end_indx)
                 start_indx = self.c2_peg_scores[0]
@@ -558,16 +563,19 @@ class CribBrd(QFrame):
                 else:
                     inter_cords = self.c_p_2_cords[start_indx:] + self.c_p_2_cords[:end_indx]
                 self.c_anim.peg_counter_move(self.c_peg_2, QPointF(cords[0] - 10, cords[1] - 15), inter_cords,
-                                             self.c_s_lbl, self.c1_peg_scores[0], c_score)
+                                             self.c_s_lbl, self.c_score_master[-1], c_score)
                 if len(self.c2_peg_scores) == 2:
                     self.c2_peg_scores.pop(0)
                 self.c_peg_turn = 1
+                self.c_score_master.append(c_score)
 
     def peg_reset(self):
         self.p_peg_1.move(self.p_p_1_cords[0][0], self.p_p_1_cords[0][1])
         self.p_peg_2.move(self.p_p_2_cords[0][0], self.p_p_2_cords[0][1])
         self.c_peg_1.move(self.c_p_1_cords[0][0], self.c_p_1_cords[0][1])
         self.c_peg_2.move(self.c_p_2_cords[0][0], self.c_p_2_cords[0][1])
+        self.c_score_master = [0]
+        self.p_score_master = [0]
         self.p1_peg_scores = [0]
         self.p2_peg_scores = [0]
         self.c1_peg_scores = [0]

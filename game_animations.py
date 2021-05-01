@@ -80,8 +80,6 @@ class GameAnimations:
         self.card_set_anim.start()
 
     def peg_counter_move(self, counter_obj, end_cords, step_points, score_digits, start_score, end_score):
-        if start_score > 60:
-            start_score -= 60
         time_step = 1 / (len(step_points) + 1)
         self.anim = QPropertyAnimation(counter_obj, b'pos')
         self.anim.setDuration(1000)
