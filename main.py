@@ -16,19 +16,13 @@ from game_stats import GameStats
 
 
 class MainCtl:
-    def set_ui(self, wid, hgt):
-        if width > 1366:
-            wid_os = (wid - 1366) / 2
-            hgt_os = (hgt - 766) / 2
-        else:
-            wid_os = 0
-            hgt_os = 0
+    def set_ui(self):
         self.timer = QTimer()
         self.main_gui = MainGui()
-        self.main_gui.ui_setup(wid_os, hgt_os)
+        self.main_gui.ui_setup()
         self.main_gui.set_menu_btns()
         self.peg_brd = CribBrd()            # scores and moves crib counters
-        self.peg_brd.set_brd(self.main_gui, wid_os, hgt_os)
+        self.peg_brd.set_brd(self.main_gui)
         self.peg_brd.set_game_counters()
         self.db_initial_update()
         self.main_gui.showFullScreen()
@@ -225,10 +219,10 @@ class MainCtl:
         self.deck_bk_img = self.main_gui.set_single_image('bk', 20, 240)
         self.main_gui.cut_box_flag = 0
         if self.d_flag == 1:
-            self.deal_box_msg = self.main_gui.add_lbl_single('Your Deal and Box', 'orange', 450, 280)
+            self.deal_box_msg = self.main_gui.add_lbl_single('Your Deal and Box', '#32a852', 450, 280)
         else:
-            self.deal_box_msg = self.main_gui.add_lbl_single('Comp Deal and Box', 'orange', 450, 280)
-        self.select_msg = self.main_gui.add_lbl_single('Select Box Cards', 'orange', 460, 320)
+            self.deal_box_msg = self.main_gui.add_lbl_single('Comp Deal and Box', '#32a852', 450, 280)
+        self.select_msg = self.main_gui.add_lbl_single('Select Box Cards', '#32a852', 460, 320)
         self.p_hand_6 = hand_sort(self.deck[:6])
         self.c_hand_6 = hand_sort(self.deck[6:12])
         self.c_hand, self.c_crib = comp_hand_select(self.c_hand_6, self.d_flag)
@@ -260,8 +254,8 @@ class MainCtl:
         self.p_hnd_obj.cut_card_add(self.game_cut)
         self.c_hnd_obj.cut_card_add(self.game_cut)
         self.crib_final.append(self.game_cut)
-        self.lb_lay = self.main_gui.add_lbl_single('Lay Total:', 'orange', 142, 310)
-        self.lt_tot_lbl = self.main_gui.add_lbl_single('0', 'orange', 240, 310)
+        self.lb_lay = self.main_gui.add_lbl_single('Lay Total:', '#32a852', 142, 310)
+        self.lt_tot_lbl = self.main_gui.add_lbl_single('0', '#32a852', 240, 310)
         self.timer.singleShot(1000, self.lay_start)
 
     def lay_start(self):

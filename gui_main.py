@@ -30,15 +30,15 @@ class PlayCardSignals(QLabel):
 
 
 class MainGui(QMainWindow):
-    def ui_setup(self, wid_os, hgt_os):
+    def ui_setup(self):
         self.base_dir = os.path.dirname(os.path.realpath(__file__))
-        main_bg_path = os.path.join(self.base_dir, 'static/main_bg2.jpg')
+        main_bg_path = os.path.join(self.base_dir, 'static/main_bg.jpg')
         self.setStyleSheet("background-image: url({}); background-repeat: no-repeat; "
                            "background-position: center;".format(main_bg_path))
         self.setFixedWidth(1366)    # need to make this scalable
         self.setFixedHeight(768)
         self.main_brd = QFrame(self)
-        self.main_brd.setGeometry(20+wid_os, 80+hgt_os, 1000, 650)
+        self.main_brd.setGeometry(20, 80, 1000, 650)
         self.main_brd.setStyleSheet("background: transparent"
                                     ";")
         self.main_brd.setLineWidth(5)
@@ -409,12 +409,12 @@ class MainGui(QMainWindow):
 
 
 class CribBrd(QFrame):
-    def set_brd(self, parent, width_os=0, height_os=0):
+    def set_brd(self, parent):
         self.p_anim = GameAnimations()
         self.c_anim = GameAnimations()
         self.base_dir = os.path.dirname(os.path.realpath(__file__))
         self.setParent(parent)
-        self.setGeometry(1020+width_os, 0+height_os, 346, 766)
+        self.setGeometry(1020, 0, 346, 766)
         self.setStyleSheet("background: transparent")
         self.p1_peg_scores = [0]
         self.p2_peg_scores = [0]
