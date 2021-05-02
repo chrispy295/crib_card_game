@@ -30,15 +30,15 @@ class PlayCardSignals(QLabel):
 
 
 class MainGui(QMainWindow):
-    def ui_setup(self):
+    def ui_setup(self, wid_os, hgt_os):
         self.base_dir = os.path.dirname(os.path.realpath(__file__))
-        main_bg_path = os.path.join(self.base_dir, 'static/main_bg.jpg')
+        main_bg_path = os.path.join(self.base_dir, 'static/main_bg2.jpg')
         self.setStyleSheet("background-image: url({}); background-repeat: no-repeat; "
                            "background-position: center;".format(main_bg_path))
         self.setFixedWidth(1366)    # need to make this scalable
         self.setFixedHeight(768)
         self.main_brd = QFrame(self)
-        self.main_brd.setGeometry(20, 80, 1000, 650)
+        self.main_brd.setGeometry(20+wid_os, 80+hgt_os, 1000, 650)
         self.main_brd.setStyleSheet("background: transparent"
                                     ";")
         self.main_brd.setLineWidth(5)
@@ -53,10 +53,10 @@ class MainGui(QMainWindow):
         self.obj_lay_refs = []
         self.play_lay_select = ''
 
-    def menu_set(self):
+    def menu_help(self):
         self.help_win = QFrame(self)
         self.help_win.setGeometry(40, 70, 500, 300)
-        self.help_win.setStyleSheet("background:#84446C;")
+        self.help_win.setStyleSheet("background:#3f434a;")
         self.help_win.setFrameStyle(QFrame.Panel | QFrame.Raised)
         h_box = QHBoxLayout(self.help_win)
         text_edit = QPlainTextEdit()
@@ -76,7 +76,7 @@ class MainGui(QMainWindow):
     def set_menu_btns(self):
         self.menu_frm = QFrame(self)
         self.menu_frm.setGeometry(40, 10, 940, 60)
-        self.menu_frm.setStyleSheet("background:#84446C;")
+        self.menu_frm.setStyleSheet("background:#3f434a")
         self.menu_frm.setFrameStyle(QFrame.Panel | QFrame.Raised)
         self.menu_frm.setLineWidth(3)
         h_box = QHBoxLayout(self.menu_frm)
@@ -409,12 +409,12 @@ class MainGui(QMainWindow):
 
 
 class CribBrd(QFrame):
-    def set_brd(self, parent):
+    def set_brd(self, parent, width_os=0, height_os=0):
         self.p_anim = GameAnimations()
         self.c_anim = GameAnimations()
         self.base_dir = os.path.dirname(os.path.realpath(__file__))
         self.setParent(parent)
-        self.setGeometry(1020, 10, 320, 730)
+        self.setGeometry(1020+width_os, 0+height_os, 346, 766)
         self.setStyleSheet("background: transparent")
         self.p1_peg_scores = [0]
         self.p2_peg_scores = [0]
@@ -455,19 +455,19 @@ class CribBrd(QFrame):
         for point in self.polygon:
             cords = QPointF(point[0], point[1])
             brd.append(cords)
-        qp.setPen(QPen(QColor(99, 30, 41), 2, Qt.SolidLine))
+        qp.setPen(QPen(QColor(63, 67, 74), 2, Qt.SolidLine))
         qp.drawPolygon(brd)
         qp.end()
         qp = QPainter()
         qp.begin(self)
         qp.setRenderHints(QPainter.Antialiasing)
         for cord in self.p_p_1_cords[1:]:
-            qp.setPen(QPen(QColor(53, 209, 10), 2, Qt.SolidLine))
-            qp.setBrush(QBrush(QColor(53, 209, 10)))
+            qp.setPen(QPen(QColor(20, 201, 0), 2, Qt.SolidLine))
+            qp.setBrush(QBrush(QColor(20, 201, 0)))
             qp.drawEllipse(cord[0], cord[1], 5, 5)
         for cord in self.c_p_1_cords[1:]:
-            qp.setPen(QPen(QColor(235, 22, 15), 2, Qt.SolidLine))
-            qp.setBrush(QBrush(QColor(235, 22, 15)))
+            qp.setPen(QPen(QColor(245, 17, 5), 2, Qt.SolidLine))
+            qp.setBrush(QBrush(QColor(245, 17, 5)))
             qp.drawEllipse(cord[0], cord[1], 5, 5)
         qp.end()
 

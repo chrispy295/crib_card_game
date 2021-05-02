@@ -16,13 +16,19 @@ from game_stats import GameStats
 
 
 class MainCtl:
-    def set_ui(self):
+    def set_ui(self, wid, hgt):
+        if width > 1366:
+            wid_os = (wid - 1366) / 2
+            hgt_os = (hgt - 766) / 2
+        else:
+            wid_os = 0
+            hgt_os = 0
         self.timer = QTimer()
         self.main_gui = MainGui()
-        self.main_gui.ui_setup()
+        self.main_gui.ui_setup(wid_os, hgt_os)
         self.main_gui.set_menu_btns()
         self.peg_brd = CribBrd()            # scores and moves crib counters
-        self.peg_brd.set_brd(self.main_gui)
+        self.peg_brd.set_brd(self.main_gui, wid_os, hgt_os)
         self.peg_brd.set_game_counters()
         self.db_initial_update()
         self.main_gui.showFullScreen()
@@ -35,7 +41,7 @@ class MainCtl:
         self.main_gui.remove_btn.clicked.connect(lambda: self.player_manage(1))
         self.main_gui.stats_btn.clicked.connect(self.show_game_stats)
         self.main_gui.graph_btn.clicked.connect(self.show_graphs)
-        self.main_gui.inst_btn.clicked.connect(self.main_gui.menu_set)
+        self.main_gui.inst_btn.clicked.connect(self.main_gui.menu_help)
 
     def db_initial_update(self):
         file = open('last_user.pkl', 'rb')
@@ -110,7 +116,7 @@ class MainCtl:
         close_btn = QPushButton('Close')
         self.p_manage_win = QFrame(self.main_gui)
         self.p_manage_win.setGeometry(40, 70, 210, 180)
-        self.p_manage_win.setStyleSheet("background:#84446C;")
+        self.p_manage_win.setStyleSheet("background:#3f434a;")
         self.p_manage_win.setFrameStyle(QFrame.Panel | QFrame.Raised)
         self.p_manage_win.setLineWidth(3)
         self.users_combo = QListWidget()
@@ -141,7 +147,7 @@ class MainCtl:
         self.main_gui.btns_set_enable([0, 0, 0, 0, 0, 0])
         self.new_user_win = QFrame(self.main_gui)
         self.new_user_win.setGeometry(40, 70, 210, 180)
-        self.new_user_win.setStyleSheet("background:#84446C;")
+        self.new_user_win.setStyleSheet("background:#3f434a;")
         self.new_user_win.setFrameStyle(QFrame.Panel | QFrame.Raised)
         self.new_user_win.setLineWidth(3)
         self.play_ent = QLineEdit()
@@ -297,11 +303,11 @@ class MainCtl:
         self.main_gui.play_lay_permit = p_permit
         if not p_permit and not self.flag_31 and not self.p_go_flag:
             self.p_go_flag = 1
-            self.p_go_lbl = self.main_gui.add_lbl_single('** Go **', 'green', 880, 600)
+            self.p_go_lbl = self.main_gui.add_lbl_single('** Go **', 'green', 880, 600, 25)
             self.timer.singleShot(700, self.lay_ctl)
         else:
             self.main_gui.p_lay_flag = 1
-            self.lay_rem_msg = self.main_gui.add_lbl_single('Your Lay', 'green', 490, 260, 25)
+            self.lay_rem_msg = self.main_gui.add_lbl_single('Your Lay', 'green', 490, 290, 33)
             self.p_card_capture()
 
     def p_card_capture(self):
@@ -333,7 +339,7 @@ class MainCtl:
         self.c_permit, self.c_permit_idx = self.lc.lay_allow(self.c_hnd_obj.hand, self.c_hnd_obj.faces)
         if not self.c_permit and not self.flag_31 and not self.c_go_flag:
             self.c_go_flag = 1
-            self.c_go_lbl = self.main_gui.add_lbl_single('** Go **', 'red', 880, 20)
+            self.c_go_lbl = self.main_gui.add_lbl_single('** Go **', 'red', 880, 20, 25)
         else:
             self.main_gui.mef = 0
             c_l_crd = lay_card_calc(self.lc.pips, self.lc.faces, self.c_permit)
@@ -519,5 +525,5 @@ if __name__ == '__main__':
     size = screen.size()
     width, height = size.width(), size.height()
     ctl = MainCtl()
-    ctl.set_ui()
+    ctl.set_ui(width, height)
     sys.exit(app.exec_())
