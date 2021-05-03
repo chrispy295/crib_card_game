@@ -17,9 +17,10 @@ from game_stats import GameStats
 
 class MainCtl:
     def set_ui(self):
+        self.flag_reset = 0
         self.timer = QTimer()
         self.main_gui = MainGui()
-        self.main_gui.ui_setup()
+        self.main_gui.ui_setup(self)
         self.main_gui.set_menu_btns()
         self.peg_brd = CribBrd()            # scores and moves crib counters
         self.peg_brd.set_brd(self.main_gui)
@@ -181,6 +182,7 @@ class MainCtl:
         self.game_stats.graphs()
 
     def game_initial(self):
+        self.flag_reset = 1
         self.main_gui.menu_frm.close()
         self.p_hnd_obj = HandState()  # holds hand cards, score and peg values etc
         self.c_hnd_obj = HandState()
@@ -485,7 +487,25 @@ class MainCtl:
         else:
             self.peg_brd.comp_move_peg_icon(self.c_hnd_obj.score)
 
-    def game_over(self):
+    def game_reset(self):
+        reply = QMessageBox.question(None, "Reset Game ?", "Nothing will be written to database")
+        if reply == QMessageBox.Yes:
+            self.win_opac = 1
+            self.timer.singleShot(200, self.fade_to_close)
+            self.flag_reset = 0
+        else:
+            return
+
+    def fade_to_close(self):
+        self.win_opac -= 0.1
+        if self.win_opac > 0:
+            self.main_gui.setWindowOpacity(self.win_opac)
+            self.timer.singleShot(90, self.fade_to_close)
+        else:
+            self.main_gui.close()
+            self.set_ui()
+
+    def game_over(self, reset_flag=0):
         for img in self.main_gui.obj_lay_refs:
             img.close()
         self.game_cut_img.close()
@@ -501,13 +521,15 @@ class MainCtl:
         if self.main_gui.c_img_obj_ref:
             for img in self.main_gui.c_img_obj_ref:
                 img.close()
-        if self.p_hnd_obj.score > self.c_hnd_obj.score:
-            self.main_gui.game_over_animinations(self.p_hnd_obj.score, self.c_hnd_obj.score)
-            self.p_hnd_obj.win_game()
-        else:
-            self.main_gui.game_over_animinations(self.p_hnd_obj.score, self.c_hnd_obj.score)
-            self.c_hnd_obj.win_game()
-            self.game_stats.game_summary(self.p_hnd_obj, self.c_hnd_obj)
+        if not reset_flag:
+            if self.p_hnd_obj.score > self.c_hnd_obj.score:
+                self.main_gui.game_over_animinations(self.p_hnd_obj.score, self.c_hnd_obj.score)
+                self.p_hnd_obj.win_game()
+                self.game_stats.game_summary(self.p_hnd_obj, self.c_hnd_obj)
+            else:
+                self.main_gui.game_over_animinations(self.p_hnd_obj.score, self.c_hnd_obj.score)
+                self.c_hnd_obj.win_game()
+                self.game_stats.game_summary(self.p_hnd_obj, self.c_hnd_obj)
         self.main_gui.set_menu_btns()
         self.db_initial_update()
         self.btn_define_connect()

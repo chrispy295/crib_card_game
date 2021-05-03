@@ -30,7 +30,8 @@ class PlayCardSignals(QLabel):
 
 
 class MainGui(QMainWindow):
-    def ui_setup(self):
+    def ui_setup(self, main_ctl_obj):
+        self.main_ctl_obj = main_ctl_obj
         self.base_dir = os.path.dirname(os.path.realpath(__file__))
         main_bg_path = os.path.join(self.base_dir, 'static/bg_main2.jpg')
         self.setStyleSheet("background-image: url({}); background-repeat: no-repeat; "
@@ -401,6 +402,8 @@ class MainGui(QMainWindow):
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Q:
             self.on_exit()
+        if event.key() == Qt.Key_R and self.main_ctl_obj.flag_reset == 1:
+            self.main_ctl_obj.game_reset()
 
     @staticmethod
     def on_exit():
