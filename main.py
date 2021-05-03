@@ -519,5 +519,5 @@ if __name__ == '__main__':
     size = screen.size()
     width, height = size.width(), size.height()
     ctl = MainCtl()
-    ctl.set_ui(width, height)
+    ctl.set_ui()
     sys.exit(app.exec_())
