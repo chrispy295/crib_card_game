@@ -507,7 +507,7 @@ class MainCtl:
         else:
             self.main_gui.game_over_animinations(self.p_hnd_obj.score, self.c_hnd_obj.score)
             self.c_hnd_obj.win_game()
-        self.game_stats.game_summary(self.p_hnd_obj, self.c_hnd_obj)
+            self.game_stats.game_summary(self.p_hnd_obj, self.c_hnd_obj)
         self.main_gui.set_menu_btns()
         self.db_initial_update()
         self.btn_define_connect()
