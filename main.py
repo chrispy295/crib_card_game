@@ -109,7 +109,7 @@ class MainCtl:
             lbl.setStyleSheet(s_sheet)
         close_btn = QPushButton('Close')
         self.p_manage_win = QFrame(self.main_gui)
-        self.p_manage_win.setGeometry(40, 70, 210, 180)
+        self.p_manage_win.setGeometry(20, 70, 210, 180)
         self.p_manage_win.setStyleSheet("background:#3f434a;")
         self.p_manage_win.setFrameStyle(QFrame.Panel | QFrame.Raised)
         self.p_manage_win.setLineWidth(3)
@@ -140,7 +140,7 @@ class MainCtl:
     def new_user(self):
         self.main_gui.btns_set_enable([0, 0, 0, 0, 0, 0])
         self.new_user_win = QFrame(self.main_gui)
-        self.new_user_win.setGeometry(40, 70, 210, 180)
+        self.new_user_win.setGeometry(20, 70, 210, 180)
         self.new_user_win.setStyleSheet("background:#3f434a;")
         self.new_user_win.setFrameStyle(QFrame.Panel | QFrame.Raised)
         self.new_user_win.setLineWidth(3)
@@ -297,7 +297,7 @@ class MainCtl:
         self.main_gui.play_lay_permit = p_permit
         if not p_permit and not self.flag_31 and not self.p_go_flag:
             self.p_go_flag = 1
-            self.p_go_lbl = self.main_gui.add_lbl_single('** Go **', 'green', 880, 600, 25)
+            self.p_go_lbl = self.main_gui.add_lbl_single('** Go **', 'green', 840, 600, 23)
             self.timer.singleShot(700, self.lay_ctl)
         else:
             self.main_gui.p_lay_flag = 1
@@ -333,7 +333,7 @@ class MainCtl:
         self.c_permit, self.c_permit_idx = self.lc.lay_allow(self.c_hnd_obj.hand, self.c_hnd_obj.faces)
         if not self.c_permit and not self.flag_31 and not self.c_go_flag:
             self.c_go_flag = 1
-            self.c_go_lbl = self.main_gui.add_lbl_single('** Go **', 'red', 880, 20, 25)
+            self.c_go_lbl = self.main_gui.add_lbl_single('** Go **', 'red', 840, 20, 23)
         else:
             self.main_gui.mef = 0
             c_l_crd = lay_card_calc(self.lc.pips, self.lc.faces, self.c_permit)
@@ -516,8 +516,6 @@ class MainCtl:
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     screen = app.primaryScreen()
-    size = screen.size()
-    width, height = size.width(), size.height()
     ctl = MainCtl()
     ctl.set_ui()
     sys.exit(app.exec_())

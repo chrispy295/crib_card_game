@@ -10,7 +10,7 @@ viewed from the stats overview menu
 or in graph form from the graph
 menu.
 Players can be deleted from the menu.
-Q to quit during game play, stats are not recorded 
+'Q' to quit during game play, stats are not recorded
 unless the game is played to the end.
 
 

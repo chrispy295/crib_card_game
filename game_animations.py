@@ -13,10 +13,10 @@ class GameAnimations:
             self.anim = QPropertyAnimation(obj, b'pos')
             self.anim.setEasingCurve(QEasingCurve.InCubic)
             self.anim.setDuration(1200)
-            self.anim.setStartValue(QPointF(10, 240))
-            self.anim.setEndValue(QPointF(10 + x_offset, 240))
+            self.anim.setStartValue(QPointF(5, 240))
+            self.anim.setEndValue(QPointF(30 + x_offset, 240))
             self.animation_groups.addAnimation(self.anim)
-            x_offset += 20
+            x_offset += 19
         self.animation_groups.start()
 
     def cut_card_anim_remove(self, deck_objs):
@@ -37,7 +37,7 @@ class GameAnimations:
             anim.setEasingCurve(QEasingCurve.InCubic)
             anim.setDuration(1500)
             anim.setStartValue(QPointF(x_start, y_start))
-            anim.setEndValue(QPointF(160 + x_os, end_y))
+            anim.setEndValue(QPointF(140 + x_os, end_y))
             self.play_anim_groups.addAnimation(anim)
             x_os += 135
         self.play_anim_groups.start()
@@ -58,7 +58,7 @@ class GameAnimations:
         self.anim = QPropertyAnimation(obj, b'pos')
         self.anim.setDuration(600)
         self.anim.setEasingCurve(QEasingCurve.InCubic)
-        self.anim.setEndValue(QPointF(300 + x, 240 + y_os))
+        self.anim.setEndValue(QPointF(280 + x, 240 + y_os))
         self.anim.start()
 
     def set_game_cards_anims(self, p_obj, c_obj):
@@ -102,7 +102,7 @@ class GameAnimations:
         for x in range(len(labels)):
             anim = QPropertyAnimation(labels[x], b'pos')
             anim.setDuration(900)
-            anim.setEndValue(QPointF(880, 260 + y_os))
+            anim.setEndValue(QPointF(830, 260 + y_os))
             anim.setEasingCurve(QEasingCurve.InCubic)
             self.lay_anim_group.addAnimation(anim)
             y_os += 40

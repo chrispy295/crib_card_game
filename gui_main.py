@@ -38,9 +38,8 @@ class MainGui(QMainWindow):
         self.setFixedWidth(1366)    # need to make this scalable
         self.setFixedHeight(768)
         self.main_brd = QFrame(self)
-        self.main_brd.setGeometry(20, 80, 1000, 650)
-        self.main_brd.setStyleSheet("background: transparent"
-                                    ";")
+        self.main_brd.setGeometry(50, 60, 934, 650)
+        self.main_brd.setStyleSheet("background: transparent")
         self.main_brd.setLineWidth(5)
         self.timer = QTimer()
         self.cut_box_flag = 0
@@ -55,7 +54,7 @@ class MainGui(QMainWindow):
 
     def menu_help(self):
         self.help_win = QFrame(self)
-        self.help_win.setGeometry(40, 70, 500, 300)
+        self.help_win.setGeometry(20, 70, 500, 300)
         self.help_win.setStyleSheet("background:#3f434a;")
         self.help_win.setFrameStyle(QFrame.Panel | QFrame.Raised)
         h_box = QHBoxLayout(self.help_win)
@@ -75,7 +74,7 @@ class MainGui(QMainWindow):
 
     def set_menu_btns(self):
         self.menu_frm = QFrame(self)
-        self.menu_frm.setGeometry(40, 10, 940, 60)
+        self.menu_frm.setGeometry(50, 10, 940, 60)
         self.menu_frm.setStyleSheet("background:#3f434a")
         self.menu_frm.setFrameStyle(QFrame.Panel | QFrame.Raised)
         self.menu_frm.setLineWidth(3)
@@ -139,13 +138,15 @@ class MainGui(QMainWindow):
         return lbl
 
     def cut_for_box_anim(self, p_card, c_card):
+        txt = 'Click On A Card To Cut For Box'
+        self.cut_lbl = self.add_lbl_single(txt, '#32a852', 320, 150, 24, 300)
         self.p_cut = p_card
         self.c_cut = c_card
         self.cut_box_cards_ref = []
         path = os.path.join(self.base_dir, 'static/deck/bk.png')
         self.cut_box_anim = GameAnimations()
         x = 0
-        while x < 44:
+        while x < 42:
             p_img_lbl = PlayCardSignals()
             pixmap = QPixmap(path)
             p_img_lbl.setPixmap(pixmap)
@@ -159,6 +160,7 @@ class MainGui(QMainWindow):
         self.cut_box_anim.cut_card_animation(self.cut_box_cards_ref)
 
     def cut_select(self, obj):
+        self.cut_lbl.close()
         px = obj.x()
         py = obj.y() + 200
         obj.close()
@@ -352,7 +354,7 @@ class MainGui(QMainWindow):
         for x in range(len(scores)):
             if scores[x] > 0:
                 txt = main_labels[0][x].format(scores[x])
-                lbl = self.add_lbl_single(txt, colour, 880, start_y, p_size=22)
+                lbl = self.add_lbl_single(txt, colour, 830, start_y, p_size=22)
                 self.lbl_ref.append(lbl)
         self.lay_anim.lay_score_animations(self.lbl_ref)
         self.timer.singleShot(1200, self.label_lay_clear)
@@ -367,7 +369,7 @@ class MainGui(QMainWindow):
             start_y = 610
         else:
             start_y = 40
-        lbl = self.add_lbl_single(txt, colour, 880, start_y, p_size=22)
+        lbl = self.add_lbl_single(txt, colour, 830, start_y, p_size=22)
         self.lay_anim2.lay_score_animations([lbl])
         self.timer.singleShot(2300, lbl.close)
 
@@ -414,7 +416,7 @@ class CribBrd(QFrame):
         self.c_anim = GameAnimations()
         self.base_dir = os.path.dirname(os.path.realpath(__file__))
         self.setParent(parent)
-        self.setGeometry(1020, 0, 346, 766)
+        self.setGeometry(1020, 0, 346, 768)
         self.setStyleSheet("background: transparent")
         self.p1_peg_scores = [0]
         self.p2_peg_scores = [0]
