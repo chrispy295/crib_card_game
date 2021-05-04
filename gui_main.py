@@ -2,7 +2,7 @@ import sys
 import os
 import random
 from PyQt5.QtWidgets import QMainWindow, QFrame, QLabel, QHBoxLayout, QPushButton, QMessageBox, QApplication
-from PyQt5.QtWidgets import QPlainTextEdit
+from PyQt5.QtWidgets import QPlainTextEdit, QListWidgetItem, QVBoxLayout, QListWidget, QLineEdit
 from PyQt5.QtGui import QPen, QBrush, QPolygonF, QColor, QPainter, QPixmap
 from PyQt5.QtCore import Qt, QPointF, pyqtSignal, QTimer
 from game_animations import GameAnimations
@@ -31,7 +31,7 @@ class PlayCardSignals(QLabel):
 
 class MainGui(QMainWindow):
     def ui_setup(self, main_ctl_obj):
-        self.main_ctl_obj = main_ctl_obj
+        self.main_ctl_obj = main_ctl_obj            # may not need this
         self.base_dir = os.path.dirname(os.path.realpath(__file__))
         main_bg_path = os.path.join(self.base_dir, 'static/main_bg.jpg')
         self.setStyleSheet("background-image: url({}); background-repeat: no-repeat; "
@@ -52,26 +52,6 @@ class MainGui(QMainWindow):
         self.p_lay_flag = 0
         self.obj_lay_refs = []
         self.play_lay_select = ''
-
-    def menu_help(self):
-        self.help_win = QFrame(self)
-        self.help_win.setGeometry(20, 70, 500, 300)
-        self.help_win.setStyleSheet("background:#3f434a;")
-        self.help_win.setFrameStyle(QFrame.Panel | QFrame.Raised)
-        h_box = QHBoxLayout(self.help_win)
-        text_edit = QPlainTextEdit()
-        text_edit.move(20, 20)
-        text_edit.resize(360, 260)
-        text = os.path.join(self.base_dir, 'help_txt.txt')
-        with open(text, "r") as rf:
-            lines = rf.read()
-        text_edit.setPlainText(lines)
-        rf.close()
-        close_btn = QPushButton('Close')
-        close_btn.clicked.connect(self.help_win.close)
-        h_box.addWidget(text_edit)
-        h_box.addWidget(close_btn)
-        self.help_win.show()
 
     def set_menu_btns(self):
         self.menu_frm = QFrame(self)
@@ -110,6 +90,86 @@ class MainGui(QMainWindow):
                          self.graph_btn]
         self.exit_btn.clicked.connect(self.on_exit)
         self.menu_frm.show()
+
+    def player_manage(self, flag):
+        self.btns_set_enable([0, 0, 0, 0, 0, 0])
+        s_sheet = "font-size: 14px"
+        llb2 = QLabel('Click to Choose')
+        llb2.setStyleSheet(s_sheet)
+        if flag:
+            lbl = QLabel('Delete Player')
+            lbl.setStyleSheet(s_sheet)
+        else:
+            lbl = QLabel('Select Player')
+            lbl.setStyleSheet(s_sheet)
+        close_btn = QPushButton('Close')
+        self.p_manage_win = QFrame(self)
+        self.p_manage_win.setGeometry(50, 70, 210, 180)
+        self.p_manage_win.setStyleSheet("background:#3f434a;")
+        self.p_manage_win.setFrameStyle(QFrame.Panel | QFrame.Raised)
+        self.p_manage_win.setLineWidth(3)
+        self.users_combo = QListWidget()
+        self.users_combo.setMaximumHeight(60)
+        for name in self.main_ctl_obj.user_list:
+            item = QListWidgetItem(name)
+            self.users_combo.addItem(item)
+        vbox = QVBoxLayout()
+        vbox.addWidget(lbl)
+        vbox.addWidget(llb2)
+        vbox.addWidget(self.users_combo)
+        vbox.addWidget(close_btn)
+        self.p_manage_win.setLayout(vbox)
+        self.p_manage_win.show()
+        close_btn.clicked.connect(self.p_win_close)
+        if flag:
+            self.users_combo.clicked.connect(lambda: self.main_ctl_obj.db_change_confirm(True))
+        else:
+            self.users_combo.clicked.connect(lambda: self.main_ctl_obj.db_change_confirm(False))
+
+    def new_user(self):
+        self.btns_set_enable([0, 0, 0, 0, 0, 0])
+        self.new_user_win = QFrame(self)
+        self.new_user_win.setGeometry(50, 70, 210, 180)
+        self.new_user_win.setStyleSheet("background:#3f434a;")
+        self.new_user_win.setFrameStyle(QFrame.Panel | QFrame.Raised)
+        self.new_user_win.setLineWidth(3)
+        self.play_ent = QLineEdit()
+        self.confirm_btn = QPushButton('Confirm New User')
+        self.cancel_btn = QPushButton('Cancel New User')
+        v_box = QVBoxLayout()
+        v_box.addWidget(self.play_ent)
+        v_box.addWidget(self.confirm_btn)
+        v_box.addWidget(self.cancel_btn)
+        self.new_user_win.setLayout(v_box)
+        self.confirm_btn.clicked.connect(self.main_ctl_obj.new_user_confirm)
+        self.cancel_btn.clicked.connect(self.main_ctl_obj.new_user_cancel)
+        self.new_user_win.show()
+
+    def menu_help(self):
+        self.help_win = QFrame(self)
+        self.help_win.setGeometry(50, 70, 500, 300)
+        self.help_win.setStyleSheet("background:#3f434a;")
+        self.help_win.setFrameStyle(QFrame.Panel | QFrame.Raised)
+        h_box = QHBoxLayout(self.help_win)
+        text_edit = QPlainTextEdit()
+        text_edit.move(20, 20)
+        text_edit.resize(360, 260)
+        text = os.path.join(self.base_dir, 'help_txt.txt')
+        with open(text, "r") as rf:
+            lines = rf.read()
+        text_edit.setPlainText(lines)
+        rf.close()
+        close_btn = QPushButton('Close')
+        close_btn.clicked.connect(self.help_win.close)
+        h_box.addWidget(text_edit)
+        h_box.addWidget(close_btn)
+        self.help_win.show()
+
+    def p_win_close(self):
+        self.p_manage_win.close()
+        self.remove_btn.setEnabled(True)
+        self.p_select_btn.setEnabled(True)
+        self.add_new_btn.setEnabled(True)
 
     def btns_set_enable(self, flag_list):
         for x in range(len(flag_list)):

@@ -1,8 +1,7 @@
 import sys
 import random
 import pickle
-from PyQt5.QtWidgets import QApplication, QFrame, QVBoxLayout, QListWidget, QListWidgetItem, QLabel, QMessageBox
-from PyQt5.QtWidgets import QLineEdit, QPushButton
+from PyQt5.QtWidgets import QApplication, QMessageBox
 from PyQt5.QtCore import QTimer
 from db_manage import UserManage
 from gui_main import MainGui, CribBrd
@@ -22,7 +21,7 @@ class MainCtl:
         self.main_gui = MainGui()
         self.main_gui.ui_setup(self)
         self.main_gui.set_menu_btns()
-        self.peg_brd = CribBrd()            # scores and moves crib counters
+        self.peg_brd = CribBrd()  # scores and moves crib counters
         self.peg_brd.set_brd(self.main_gui)
         self.peg_brd.set_game_counters()
         self.db_initial_update()
@@ -31,9 +30,9 @@ class MainCtl:
 
     def btn_define_connect(self):
         self.main_gui.game_btn.clicked.connect(self.game_initial)
-        self.main_gui.add_new_btn.clicked.connect(self.new_user)
-        self.main_gui.p_select_btn.clicked.connect(lambda: self.player_manage(0))
-        self.main_gui.remove_btn.clicked.connect(lambda: self.player_manage(1))
+        self.main_gui.add_new_btn.clicked.connect(self.main_gui.new_user)
+        self.main_gui.p_select_btn.clicked.connect(lambda: self.main_gui.player_manage(0))
+        self.main_gui.remove_btn.clicked.connect(lambda: self.main_gui.player_manage(1))
         self.main_gui.stats_btn.clicked.connect(self.show_game_stats)
         self.main_gui.graph_btn.clicked.connect(self.show_graphs)
         self.main_gui.inst_btn.clicked.connect(self.main_gui.menu_help)
@@ -46,6 +45,7 @@ class MainCtl:
         self.user_list = self.db_users.user_read()
         if not self.user_list:
             self.main_gui.btns_set_enable([0, 0, 1, 0, 0, 0])    # set menu buttons enable/disable needs len 6
+            self.main_gui.cur_user.setText('')
         else:
             if len(self.user_list) < 2:
                 self.main_gui.btns_set_enable([1, 0, 1, 1, 1, 1])
@@ -65,24 +65,24 @@ class MainCtl:
                 self.main_gui.btns_set_enable([1, 1, 1, 1, 0, 0])
 
     def db_change_confirm(self, flag):
-        player = self.users_combo.currentItem().text()
+        player = self.main_gui.users_combo.currentItem().text()
         if flag:
             reply = QMessageBox.question(None, "Delete User", "Delete user {} and his Database?\nThis Cannot Be Undone"
                                          .format(player))
         else:
             reply = QMessageBox.question(None, "Switch User", "Switch to  user {}".format(player))
         if flag and reply == QMessageBox.Yes:
-            self.p_manage_win.close()
+            self.main_gui.p_manage_win.close()
             self.delete_user(player)
         elif not flag and reply == QMessageBox.Yes:
-            self.p_manage_win.close()
+            self.main_gui.p_manage_win.close()
             file = open('last_user.pkl', 'wb')
             pickle.dump(player, file)
             file.close()
             self.db_initial_update()
-            self.p_manage_win.close()
+            self.main_gui.p_manage_win.close()
         else:
-            self.p_manage_win.close()
+            self.main_gui.p_manage_win.close()
 
     def add_new_user(self, name):
         self.db_users.user_add(name)
@@ -97,83 +97,23 @@ class MainCtl:
         self.db_users.user_delete(name)
         self.db_initial_update()
 
-    def player_manage(self, flag):
-        self.main_gui.btns_set_enable([0, 0, 0, 0, 0, 0])
-        s_sheet = "font-size: 14px"
-        llb2 = QLabel('Click to Choose')
-        llb2.setStyleSheet(s_sheet)
-        if flag:
-            lbl = QLabel('Delete Player')
-            lbl.setStyleSheet(s_sheet)
-        else:
-            lbl = QLabel('Select Player')
-            lbl.setStyleSheet(s_sheet)
-        close_btn = QPushButton('Close')
-        self.p_manage_win = QFrame(self.main_gui)
-        self.p_manage_win.setGeometry(20, 70, 210, 180)
-        self.p_manage_win.setStyleSheet("background:#3f434a;")
-        self.p_manage_win.setFrameStyle(QFrame.Panel | QFrame.Raised)
-        self.p_manage_win.setLineWidth(3)
-        self.users_combo = QListWidget()
-        self.users_combo.setMaximumHeight(60)
-        for name in self.user_list:
-            item = QListWidgetItem(name)
-            self.users_combo.addItem(item)
-        vbox = QVBoxLayout()
-        vbox.addWidget(lbl)
-        vbox.addWidget(llb2)
-        vbox.addWidget(self.users_combo)
-        vbox.addWidget(close_btn)
-        self.p_manage_win.setLayout(vbox)
-        self.p_manage_win.show()
-        close_btn.clicked.connect(self.p_win_close)
-        if flag:
-            self.users_combo.clicked.connect(lambda: self.db_change_confirm(True))
-        else:
-            self.users_combo.clicked.connect(lambda: self.db_change_confirm(False))
-
-    def p_win_close(self):
-        self.p_manage_win.close()
-        self.main_gui.remove_btn.setEnabled(True)
-        self.main_gui.p_select_btn.setEnabled(True)
-        self.main_gui.add_new_btn.setEnabled(True)
-
-    def new_user(self):
-        self.main_gui.btns_set_enable([0, 0, 0, 0, 0, 0])
-        self.new_user_win = QFrame(self.main_gui)
-        self.new_user_win.setGeometry(20, 70, 210, 180)
-        self.new_user_win.setStyleSheet("background:#3f434a;")
-        self.new_user_win.setFrameStyle(QFrame.Panel | QFrame.Raised)
-        self.new_user_win.setLineWidth(3)
-        self.play_ent = QLineEdit()
-        self.confirm_btn = QPushButton('Confirm New User')
-        self.cancel_btn = QPushButton('Cancel New User')
-        v_box = QVBoxLayout()
-        v_box.addWidget(self.play_ent)
-        v_box.addWidget(self.confirm_btn)
-        v_box.addWidget(self.cancel_btn)
-        self.new_user_win.setLayout(v_box)
-        self.confirm_btn.clicked.connect(self.new_user_confirm)
-        self.cancel_btn.clicked.connect(self.new_user_cancel)
-        self.new_user_win.show()
-
     def new_user_cancel(self):
-        self.new_user_win.close()
+        self.main_gui.new_user_win.close()
         self.db_initial_update()
 
     def new_user_confirm(self):
-        player = self.play_ent.text()
+        player = self.main_gui.play_ent.text()
         if not player:
             QMessageBox.information(None, "Info", "Please enter a Name", QMessageBox.Ok)
-            self.play_ent.clear()
+            self.main_gui.play_ent.clear()
         else:
             if player[0].isdigit():
                 QMessageBox.information(None, "Info", "Name can't Start With a Number", QMessageBox.Ok)
-                self.play_ent.clear()
+                self.main_gui.play_ent.clear()
             else:
                 player = player.replace(" ", "")
                 self.add_new_user(player)
-                self.new_user_win.close()
+                self.main_gui.new_user_win.close()
 
     def show_game_stats(self):
         self.game_stats.stats_overview()

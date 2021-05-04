@@ -90,7 +90,7 @@ class GameStats:
         titles = ['Stats', 'Player', 'Comp']
         win = QWidget(self.master)
         win.setWindowTitle('Games Smmary Table')
-        win.setGeometry(40, 80, 280, 510)
+        win.setGeometry(50, 80, 280, 510)
         win.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         win.setStyleSheet("background: #3f434a")
         grid = QGridLayout()
