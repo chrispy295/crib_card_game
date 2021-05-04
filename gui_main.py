@@ -33,7 +33,7 @@ class MainGui(QMainWindow):
     def ui_setup(self, main_ctl_obj):
         self.main_ctl_obj = main_ctl_obj
         self.base_dir = os.path.dirname(os.path.realpath(__file__))
-        main_bg_path = os.path.join(self.base_dir, 'static/bg_main2.jpg')
+        main_bg_path = os.path.join(self.base_dir, 'static/main_bg.jpg')
         self.setStyleSheet("background-image: url({}); background-repeat: no-repeat; "
                            "background-position: center;".format(main_bg_path))
         self.setFixedWidth(1366)    # need to make this scalable
