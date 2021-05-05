@@ -11,13 +11,14 @@ class LayEndScoreWindow:
         self.base_dir = os.path.dirname(os.path.realpath(__file__))
         self.data = data
         self.main_widget = QWidget(parent)
-        self.main_widget.setStyleSheet("background: #192642")
+        self.main_widget.setStyleSheet("background: #16191c")
         self.main_widget.setGeometry(80, 205, 880, 370)
         btn_widget = QWidget(self.main_widget)
         btn_widget.setGeometry(260, 300, 200, 50)
         btn_layout = QHBoxLayout(btn_widget)
         btn_layout.setContentsMargins(0, 0, 0, 0)
         self.next_btn = QPushButton("Next Scores")
+        self.next_btn.setStyleSheet("background-color: #6c788c")
         btn_layout.addWidget(self.next_btn)
         self.next_btn.clicked.connect(self.next_data)
         self.img_widget = QWidget(self.main_widget)
@@ -80,9 +81,9 @@ class LayEndScoreWindow:
 
     def flashing_btn(self):
         if self.flash_flag:
-            self.next_btn.setStyleSheet("background-color: blue")
+            self.next_btn.setStyleSheet("background-color: red")
         else:
-            self.next_btn.setStyleSheet("background-color: #464646")
+            self.next_btn.setStyleSheet("background-color: #6c788c")
         self.flash_flag = not self.flash_flag
 
 

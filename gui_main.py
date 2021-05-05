@@ -415,7 +415,7 @@ class MainGui(QMainWindow):
         for x in range(len(scores)):
             if scores[x] > 0:
                 txt = main_labels[0][x].format(scores[x])
-                lbl = self.add_lbl_single(txt, colour, 830, start_y, p_size=22)
+                lbl = self.add_lbl_single(txt, colour, 820, start_y, p_size=22)
                 self.lbl_ref.append(lbl)
         self.lay_anim.lay_score_animations(self.lbl_ref)
         self.timer.singleShot(1200, self.label_lay_clear)
@@ -430,7 +430,7 @@ class MainGui(QMainWindow):
             start_y = 610
         else:
             start_y = 40
-        lbl = self.add_lbl_single(txt, colour, 830, start_y, p_size=22)
+        lbl = self.add_lbl_single(txt, colour, 820, start_y, p_size=22)
         self.lay_anim2.lay_score_animations([lbl])
         self.timer.singleShot(2300, lbl.close)
 

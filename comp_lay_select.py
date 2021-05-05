@@ -20,6 +20,11 @@ def lay_card_calc(l_pips, l_faces, hand):
             idx = h_faces.index(val)
             card = hand[idx]
             return card
+        elif h_faces.count(5) >= 1 and h_faces.count(10) >= 1 and len(h_faces) == h_faces.count(5) + h_faces.count(10):
+            val = max(h_faces)
+            idx = h_faces.index(val)
+            card = hand[idx]
+            return card
         elif len(list_4) >= 2:
             val = random.choice(list_4)
             idx = h_faces.index(val)
@@ -56,7 +61,7 @@ def lay_card_calc(l_pips, l_faces, hand):
     else:
         list_safe = [fce for fce in h_faces if lt + fce != 5 and lt + fce != 10 and lt + fce != 21 and lt + fce != 26]
         list_safe_pairs = [fce for fce in list_safe if list_safe.count(fce) >= 2 and lt + (3 * fce) <= 31]
-        list_safe_5 = [fce for fce in h_faces if lt + fce != 10 and lt + fce != 21 and lt + fce != 26 and fce <= 5]
+        list_safe = [fce for fce in h_faces if lt + fce != 10 and lt + fce != 21 and lt + fce != 26]
         score_list = []
         for x in range(len(hand)):
             l_pips.append(h_pips[x])
@@ -88,18 +93,13 @@ def lay_card_calc(l_pips, l_faces, hand):
             idx = h_faces.index(val)
             card = hand[idx]
             return card
-        elif card_passive:
-            return card_passive
-        elif lt < 10 and len(list_safe_5) >= 2:
-            val = random.choice(list_safe_5)
-            idx = h_faces.index(val)
-            card = hand[idx]
-            return card
-        elif lt >= 10:
+        elif list_safe:
             val = max(list_safe)
             idx = h_faces.index(val)
             card = hand[idx]
             return card
+        elif card_passive:
+            return card_passive
         else:
             card = random.choice(hand)
             return card
@@ -117,7 +117,7 @@ def card_select_brute(l_pips, l_faces, hand, h_pips, h_faces):
         for y in range(len(card_pips)):
             composite_pips = [l_pips[-1], h_pips[x], card_pips[y]]
             composite_faces = [l_faces[-1], h_faces[x], card_faces[y]]
-            if sum(composite_faces) > 31 or h_faces[x] + lt == 10 and h_faces[x] + lt == 21:
+            if sum(composite_faces) > 31:
                 continue
             else:
                 score = sum(lay_score_calc(composite_pips, composite_faces))
