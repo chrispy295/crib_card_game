@@ -650,17 +650,4 @@ class CribBrd(QFrame):
 
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    screen = app.primaryScreen()
-    size = screen.size()
-    width, height = size.width(), size.height()
-    main = MainGui()
-    main.ui_setup()
-    main.showMaximized()
-    peg = CribBrd()
-    peg.set_brd(main)
-    peg.set_game_counters()
-    peg.show()
-    peg.play_move_peg_icon(40)
-    peg.comp_move_peg_icon(50)
-    sys.exit(app.exec_())
+    pass

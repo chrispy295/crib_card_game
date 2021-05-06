@@ -62,6 +62,7 @@ def lay_card_calc(l_pips, l_faces, hand):
         list_safe = [fce for fce in h_faces if lt + fce != 5 and lt + fce != 10 and lt + fce != 21 and lt + fce != 26]
         list_safe_pairs = [fce for fce in list_safe if list_safe.count(fce) >= 2 and lt + (3 * fce) <= 31]
         list_safe = [fce for fce in h_faces if lt + fce != 10 and lt + fce != 21 and lt + fce != 26]
+        diffs = [abs(l_pips[-1] - x) for x in h_pips]
         score_list = []
         for x in range(len(hand)):
             l_pips.append(h_pips[x])
@@ -71,7 +72,6 @@ def lay_card_calc(l_pips, l_faces, hand):
             l_pips.pop(-1)
             l_faces.pop(-1)
         scores_sum_tots_per_card = [sum(x) for x in score_list]
-        card_passive = card_select_brute(l_pips, l_faces, hand, h_pips, h_faces)
         if sum(scores_sum_tots_per_card) > 0:
             val = max(scores_sum_tots_per_card)
             if val > 2:
@@ -98,38 +98,11 @@ def lay_card_calc(l_pips, l_faces, hand):
             idx = h_faces.index(val)
             card = hand[idx]
             return card
-        elif card_passive:
-            return card_passive
         else:
-            card = random.choice(hand)
+            val = max(diffs)
+            idx = diffs.index(val)
+            card = hand[idx]
             return card
-
-
-def card_select_brute(l_pips, l_faces, hand, h_pips, h_faces):
-    lt = sum(l_faces)
-    scores = []
-    scores_faces = []
-    card_pips = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-    card_faces = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
-    for x in range(len(h_pips)):
-        sub_totals = []
-        scores_faces.append(h_faces[x])
-        for y in range(len(card_pips)):
-            composite_pips = [l_pips[-1], h_pips[x], card_pips[y]]
-            composite_faces = [l_faces[-1], h_faces[x], card_faces[y]]
-            if sum(composite_faces) > 31:
-                continue
-            else:
-                score = sum(lay_score_calc(composite_pips, composite_faces))
-                sub_totals.append(score)
-        scores.append(sum(sub_totals))
-    if scores:
-        low_val = min(scores)
-        idx = scores.index(low_val)
-        card = hand[idx]
-        return card
-    else:
-        return None
 
 
 if __name__ == '__main__':
