@@ -265,11 +265,11 @@ class MainCtl:
         if sum(l_score) > 0:
             self.p_hnd_obj.score_update(sum(l_score))
             self.p_hnd_obj.lay_score_stats(l_score)
-            self.main_gui.pegging_scores(l_score, 'green')
-            self.timer.singleShot(300, lambda: self.peg_brd.play_move_peg_icon(self.p_hnd_obj.score))
+            self.main_gui.player_pegging_scores(l_score)
+            self.peg_brd.play_move_peg_icon(self.p_hnd_obj.score)
             if l_score[3] > 0:
                 self.flag_31 = 1
-        self.timer.singleShot(1200, self.lay_ctl)
+        self.timer.singleShot(1000, self.lay_ctl)
 
     def comp_lay(self):
         self.c_permit, self.c_permit_idx = self.lc.lay_allow(self.c_hnd_obj.hand, self.c_hnd_obj.faces)
@@ -290,11 +290,11 @@ class MainCtl:
             if sum(l_score) > 0:
                 self.c_hnd_obj.score_update(sum(l_score))
                 self.c_hnd_obj.lay_score_stats(l_score)
-                self.main_gui.pegging_scores(l_score, 'red')
-                self.timer.singleShot(300, lambda: self.peg_brd.comp_move_peg_icon(self.c_hnd_obj.score))
+                self.main_gui.comp_pegging_scores(l_score)
+                self.peg_brd.comp_move_peg_icon(self.c_hnd_obj.score)
                 if l_score[3] > 0:
                     self.flag_31 = 1
-        self.timer.singleShot(600, self.lay_ctl)
+        self.timer.singleShot(200, self.lay_ctl)
 
     def go_last_card(self):
         if self.turn_flag == 0:
@@ -309,6 +309,7 @@ class MainCtl:
             self.peg_brd.play_move_peg_icon(self.p_hnd_obj.score)
 
     def lay_reset(self):
+        self.main_gui.lbl_pegging_ref = []
         if not self.flag_31:
             self.go_last_card()
         for img in self.main_gui.obj_lay_refs:
@@ -327,6 +328,7 @@ class MainCtl:
         self.timer.singleShot(1500, self.lay_ctl)
 
     def lay_end(self):
+        self.main_gui.lbl_pegging_ref = []
         if self.p_go_flag:
             self.p_go_lbl.close()
         if self.c_go_flag:
@@ -344,12 +346,12 @@ class MainCtl:
             self.deck_bk_img.close()
             self.lt_tot_lbl.close()
             self.lb_lay.close()
-            self.timer.singleShot(2000, self.lay_end_count)
+            self.timer.singleShot(2500, self.lay_end_count)
 
     def lay_end_count(self):
-        p_scores = list(score_master(self.p_hnd_obj.hand_fin, self.d_flag, score_only=1))
-        c_scores = list(score_master(self.c_hnd_obj.hand_fin, self.d_flag, score_only=1))
-        crib_scores = list(score_master(self.crib_final, self.d_flag, score_only=1))
+        p_scores = list(score_master(self.p_hnd_obj.hand_fin, 0, score_only=1))
+        c_scores = list(score_master(self.c_hnd_obj.hand_fin, 0, score_only=1))
+        crib_scores = list(score_master(self.crib_final, 1, score_only=1))
         if self.d_flag:
             self.hand_objs = [self.c_hnd_obj, self.p_hnd_obj, self.p_hnd_obj]
             title = ['Comp Hand', 'Player Hand', 'Player Box']

@@ -405,20 +405,27 @@ class MainGui(QMainWindow):
         self.comp_animations.move_lay_card_anim(c_obj, self.lay_x_offset, -10)
         self.lay_x_offset += 60
 
-    def pegging_scores(self, scores, colour):
-        self.lay_anim = GameAnimations()
-        self.lbl_ref = []
-        if colour == 'green':
-            start_y = 610
-        else:
-            start_y = 40
+    def player_pegging_scores(self, scores):
+        self.p_lbl_pegging_ref = []
+        self.play_anim = GameAnimations()
         for x in range(len(scores)):
             if scores[x] > 0:
                 txt = main_labels[0][x].format(scores[x])
-                lbl = self.add_lbl_single(txt, colour, 820, start_y, p_size=22)
-                self.lbl_ref.append(lbl)
-        self.lay_anim.lay_score_animations(self.lbl_ref)
-        self.timer.singleShot(1200, self.label_lay_clear)
+                lbl = self.add_lbl_single(txt, 'green', 820, 610, p_size=22)
+                self.p_lbl_pegging_ref.append(lbl)
+        self.play_anim.lay_score_animations(self.p_lbl_pegging_ref)
+        self.timer.singleShot(1100, lambda: self.label_lay_clear(self.p_lbl_pegging_ref))
+
+    def comp_pegging_scores(self, scores):
+        self.c_lbl_pegging_ref = []
+        self.comp_anim = GameAnimations()
+        for x in range(len(scores)):
+            if scores[x] > 0:
+                txt = main_labels[0][x].format(scores[x])
+                lbl = self.add_lbl_single(txt, 'red', 820, 40, p_size=22)
+                self.c_lbl_pegging_ref.append(lbl)
+        self.comp_anim.lay_score_animations(self.c_lbl_pegging_ref)
+        self.timer.singleShot(1100, lambda: self.label_lay_clear(self.c_lbl_pegging_ref))
 
     def go_heel_pegging(self, colour, txt_flag):
         self.lay_anim2 = GameAnimations()
@@ -434,8 +441,9 @@ class MainGui(QMainWindow):
         self.lay_anim2.lay_score_animations([lbl])
         self.timer.singleShot(2300, lbl.close)
 
-    def label_lay_clear(self):
-        for obj in self.lbl_ref:
+    @staticmethod
+    def label_lay_clear(ref):
+        for obj in ref:
             obj.close()
 
     def game_over_animinations(self, p_score, c_score):

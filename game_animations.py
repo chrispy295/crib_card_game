@@ -101,7 +101,7 @@ class GameAnimations:
         y_os = 0
         for x in range(len(labels)):
             anim = QPropertyAnimation(labels[x], b'pos')
-            anim.setDuration(900)
+            anim.setDuration(1000)
             anim.setEndValue(QPointF(820, 260 + y_os))
             anim.setEasingCurve(QEasingCurve.InCubic)
             self.lay_anim_group.addAnimation(anim)
