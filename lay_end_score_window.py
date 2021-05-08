@@ -11,7 +11,7 @@ class LayEndScoreWindow:
         self.base_dir = os.path.dirname(os.path.realpath(__file__))
         self.data = data
         self.main_widget = QWidget(parent)
-        self.main_widget.setStyleSheet("background: #16191c")
+        self.main_widget.setStyleSheet("background: #171717")
         self.main_widget.setGeometry(80, 205, 880, 370)
         btn_widget = QWidget(self.main_widget)
         btn_widget.setGeometry(260, 300, 200, 50)
