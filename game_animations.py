@@ -97,6 +97,7 @@ class GameAnimations:
         self.time_line.start()
 
     def lay_score_animations(self, labels):
+        """ audio """
         self.lay_anim_group = QParallelAnimationGroup()
         y_os = 0
         for x in range(len(labels)):
