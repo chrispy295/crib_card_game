@@ -442,7 +442,7 @@ class MainCtl:
         self.win_opac -= 0.1
         if self.win_opac > 0:
             self.main_gui.setWindowOpacity(self.win_opac)
-            self.timer.singleShot(90, self.fade_to_close)
+            self.timer.singleShot(100, self.fade_to_close)
         else:
             self.main_gui.close()
             self.set_ui()
