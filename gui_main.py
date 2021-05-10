@@ -120,11 +120,15 @@ class MainGui(QMainWindow):
         vbox.addWidget(close_btn)
         self.p_manage_win.setLayout(vbox)
         self.p_manage_win.show()
-        close_btn.clicked.connect(self.p_win_close)
+        close_btn.clicked.connect(self.win_close)
         if flag:
             self.users_combo.clicked.connect(lambda: self.main_ctl_obj.db_change_confirm(True))
         else:
             self.users_combo.clicked.connect(lambda: self.main_ctl_obj.db_change_confirm(False))
+
+    def win_close(self):
+        self.p_win_close()
+        self.main_ctl_obj.db_initial_update()
 
     def new_user(self):
         self.btns_set_enable([0, 0, 0, 0, 0, 0])
@@ -414,7 +418,7 @@ class MainGui(QMainWindow):
                 lbl = self.add_lbl_single(txt, 'green', 820, 610, p_size=22)
                 self.p_lbl_pegging_ref.append(lbl)
         self.play_anim.lay_score_animations(self.p_lbl_pegging_ref)
-        self.timer.singleShot(1100, lambda: self.label_lay_clear(self.p_lbl_pegging_ref))
+        self.timer.singleShot(1400, lambda: self.label_lay_clear(self.p_lbl_pegging_ref))
 
     def comp_pegging_scores(self, scores):
         self.c_lbl_pegging_ref = []
@@ -425,7 +429,7 @@ class MainGui(QMainWindow):
                 lbl = self.add_lbl_single(txt, 'red', 820, 40, p_size=22)
                 self.c_lbl_pegging_ref.append(lbl)
         self.comp_anim.lay_score_animations(self.c_lbl_pegging_ref)
-        self.timer.singleShot(1100, lambda: self.label_lay_clear(self.c_lbl_pegging_ref))
+        self.timer.singleShot(1400, lambda: self.label_lay_clear(self.c_lbl_pegging_ref))
 
     def go_heel_pegging(self, colour, txt_flag):
         self.lay_anim2 = GameAnimations()
