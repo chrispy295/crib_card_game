@@ -12,7 +12,7 @@ class LayEndScoreWindow:
         self.data = data
         self.main_widget = QWidget(parent)
         self.main_widget.setStyleSheet("background: #0f0f0f")
-        self.main_widget.setGeometry(80, 205, 880, 370)
+        self.main_widget.setGeometry(80, 160, 880, 360)
         btn_widget = QWidget(self.main_widget)
         btn_widget.setGeometry(260, 300, 200, 50)
         btn_layout = QHBoxLayout(btn_widget)

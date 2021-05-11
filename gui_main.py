@@ -36,10 +36,9 @@ class MainGui(QMainWindow):
         main_bg_path = os.path.join(self.base_dir, 'static/main_bg.jpg')
         self.setStyleSheet("background-image: url({}); background-repeat: no-repeat; "
                            "background-position: center;".format(main_bg_path))
-        self.setFixedWidth(1366)    # need to make this scalable
-        self.setFixedHeight(768)
+        self.setWindowTitle('Cribbage')
         self.main_brd = QFrame(self)
-        self.main_brd.setGeometry(50, 60, 934, 650)
+        self.main_brd.setGeometry(50, 0, 934, 700)
         self.main_brd.setStyleSheet("background: transparent")
         self.main_brd.setLineWidth(5)
         self.timer = QTimer()
@@ -204,7 +203,7 @@ class MainGui(QMainWindow):
 
     def cut_for_box_anim(self, p_card, c_card):
         txt = 'Click On A Card To Cut For Box'
-        self.cut_lbl = self.add_lbl_single(txt, '#32a852', 320, 150, 24, 300)
+        self.cut_lbl = self.add_lbl_single(txt, '#32a852', 340, 150, 24, 300)
         self.p_cut = p_card
         self.c_cut = c_card
         self.cut_box_cards_ref = []
@@ -295,7 +294,7 @@ class MainGui(QMainWindow):
             p_img_lbl.resize(pixmap.width(), pixmap.height())
             p_img_lbl.show()
             self.p_img_obj_ref.append(p_img_lbl)
-        self.player_animations.deal_animation(self.p_img_obj_ref, 0, 0, 460)
+        self.player_animations.deal_animation(self.p_img_obj_ref, 0, 0, 520)
         for x in range(len(self.p_img_obj_ref)):
             self.set_crib_select_slots(self.p_img_obj_ref[x], self.cards[x])
 
@@ -344,7 +343,7 @@ class MainGui(QMainWindow):
         self.card_anim = GameAnimations()
         end_x = 20
         if self.d_flag == 1:
-            end_y = 460
+            end_y = 520
         else:
             end_y = 20
         px1 = self.p_crib_refs[0].x()

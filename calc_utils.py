@@ -122,26 +122,26 @@ def lay_score_calc(lay_pips, lay_faces):
 def peg_board_outline():
     arr_y = np.linspace(start=0, stop=7, num=30)
     s_wav = np.sin(arr_y)
-    line_cords1 = [(72, 40)]
+    line_cords1 = [(72, 10)]
     line_cords4 = []
     for x in range(len(arr_y)):
-        line_cords1.append((int((s_wav[x] * 70) + 82), int((arr_y[x] * 90) + 50)))
-        line_cords4.append((int((s_wav[x] * 70) + 237), int((arr_y[x] * 90) + 50)))
-    polygon2 = line_cords1 + [(137, 700), (295, 700)] + line_cords4[::-1] + [(230, 40)]
-    return polygon2
+        line_cords1.append((int((s_wav[x] * 70) + 82), int((arr_y[x] * 90) + 20)))
+        line_cords4.append((int((s_wav[x] * 70) + 237), int((arr_y[x] * 90) + 20)))
+    polygon = line_cords1 + [(137, 670), (295, 670)] + line_cords4[::-1] + [(230, 10)]
+    return polygon
 
 
 def peg_board_score_ref():
-    p_peg_ref_1 = [(235, 710)]
-    p_peg_ref_2 = [(265, 710)]
-    c_peg_ref_1 = [(150, 710)]  # lists that hold image cordinates to move the game peg scores to
-    c_peg_ref_2 = [(180, 710)]
+    p_peg_ref_1 = [(235, 680)]
+    p_peg_ref_2 = [(265, 680)]
+    c_peg_ref_1 = [(150, 680)]  # lists that hold image cordinates to move the game peg scores to
+    c_peg_ref_2 = [(180, 680)]
     arr_y = np.linspace(start=0, stop=7, num=30)
     s_wav = np.sin(arr_y)
     for x in range(len(arr_y) - 1, -1, -1):
         px_cord = int((s_wav[x] * 70) + 216)
         cx_cord = int((s_wav[x] * 70) + 95)
-        y_cord = int((arr_y[x] * 90) + 50)
+        y_cord = int((arr_y[x] * 90) + 20)
         p_peg_ref_1.append((px_cord, y_cord))
         p_peg_ref_2.append((px_cord, y_cord))
         c_peg_ref_1.append((cx_cord, y_cord))
@@ -149,7 +149,7 @@ def peg_board_score_ref():
     for x in range(len(arr_y)):
         px_cord = int((s_wav[x] * 70) + 180)
         cx_cord = int((s_wav[x] * 70) + 135)
-        y_cord = int((arr_y[x] * 90) + 50)
+        y_cord = int((arr_y[x] * 90) + 20)
         p_peg_ref_1.append((px_cord, y_cord))
         p_peg_ref_2.append((px_cord, y_cord))
         c_peg_ref_1.append((cx_cord, y_cord))

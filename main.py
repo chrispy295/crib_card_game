@@ -25,7 +25,7 @@ class MainCtl:
         self.peg_brd.set_brd(self.main_gui)
         self.peg_brd.set_game_counters()
         self.db_initial_update()
-        self.main_gui.showFullScreen()
+        self.main_gui.showMaximized()
         self.btn_define_connect()
 
     def btn_define_connect(self):
@@ -158,13 +158,13 @@ class MainCtl:
             self.timer.singleShot(100, self.cut_flag)
 
     def deal_hands(self):
-        self.deck_bk_img = self.main_gui.set_single_image('bk', 20, 240)
+        self.deck_bk_img = self.main_gui.set_single_image('bk', 20, 265)
         self.main_gui.cut_box_flag = 0
         if self.d_flag == 1:
-            self.deal_box_msg = self.main_gui.add_lbl_single('Your Deal and Box', '#32a852', 450, 280)
+            self.deal_box_msg = self.main_gui.add_lbl_single('Your Box', '#32a852', 490, 340)
         else:
-            self.deal_box_msg = self.main_gui.add_lbl_single('Comp Deal and Box', '#32a852', 450, 280)
-        self.select_msg = self.main_gui.add_lbl_single('Select Box Cards', '#32a852', 460, 320)
+            self.deal_box_msg = self.main_gui.add_lbl_single('Computer Box', '#32a852', 480, 340)
+        self.select_msg = self.main_gui.add_lbl_single('Select Box Cards', '#32a852', 460, 290)
         self.p_hand_6 = hand_sort(self.deck[:6])
         self.c_hand_6 = hand_sort(self.deck[6:12])
         self.c_hand, self.c_crib = comp_hand_select(self.c_hand_6, self.d_flag)
@@ -192,12 +192,12 @@ class MainCtl:
         self.p_hnd_obj.add_hand(self.p_hand_6)
         self.c_hnd_obj.add_hand(self.c_hand)
         self.game_cut = random.choice(self.deck[12:])
-        self.game_cut_img = self.main_gui.set_single_image(self.game_cut, 20, 240)
+        self.game_cut_img = self.main_gui.set_single_image(self.game_cut, 20, 265)
         self.p_hnd_obj.cut_card_add(self.game_cut)
         self.c_hnd_obj.cut_card_add(self.game_cut)
         self.crib_final.append(self.game_cut)
-        self.lb_lay = self.main_gui.add_lbl_single('Lay Total:', '#32a852', 142, 310)
-        self.lt_tot_lbl = self.main_gui.add_lbl_single('0', '#32a852', 240, 310)
+        self.lb_lay = self.main_gui.add_lbl_single('Lay Total:', '#32a852', 142, 380)
+        self.lt_tot_lbl = self.main_gui.add_lbl_single('0', '#32a852', 240, 380)
         self.timer.singleShot(1000, self.lay_start)
 
     def lay_start(self):
@@ -239,11 +239,11 @@ class MainCtl:
         self.main_gui.play_lay_permit = p_permit
         if not p_permit and not self.flag_31 and not self.p_go_flag:
             self.p_go_flag = 1
-            self.p_go_lbl = self.main_gui.add_lbl_single('** Go **', 'green', 840, 600, 23)
+            self.p_go_lbl = self.main_gui.add_lbl_single('- Go -', 'green', 840, 570, 23)
             self.timer.singleShot(700, self.lay_ctl)
         else:
             self.main_gui.p_lay_flag = 1
-            self.lay_rem_msg = self.main_gui.add_lbl_single('Your Lay', 'green', 490, 290, 33)
+            self.lay_rem_msg = self.main_gui.add_lbl_single('Your Lay', 'green', 490, 350, 29)
             self.p_card_capture()
 
     def p_card_capture(self):
@@ -275,7 +275,7 @@ class MainCtl:
         self.c_permit, self.c_permit_idx = self.lc.lay_allow(self.c_hnd_obj.hand, self.c_hnd_obj.faces)
         if not self.c_permit and not self.flag_31 and not self.c_go_flag:
             self.c_go_flag = 1
-            self.c_go_lbl = self.main_gui.add_lbl_single('** Go **', 'red', 840, 20, 23)
+            self.c_go_lbl = self.main_gui.add_lbl_single('- Go -', 'red', 840, 20, 23)
         else:
             self.main_gui.mef = 0
             c_l_crd = lay_card_calc(self.lc.pips, self.lc.faces, self.c_permit)
