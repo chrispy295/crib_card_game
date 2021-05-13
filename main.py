@@ -161,9 +161,9 @@ class MainCtl:
         self.deck_bk_img = self.main_gui.set_single_image('bk', 20, 265)
         self.main_gui.cut_box_flag = 0
         if self.d_flag == 1:
-            self.deal_box_msg = self.main_gui.add_lbl_single('Your Box', '#32a852', 500, 340)
+            self.deal_box_msg = self.main_gui.add_lbl_single('Your Box', '#32a852', 500, 320)
         else:
-            self.deal_box_msg = self.main_gui.add_lbl_single('Computer Box', '#32a852', 460, 340)
+            self.deal_box_msg = self.main_gui.add_lbl_single('Computer Box', '#32a852', 470, 320)
         self.select_msg = self.main_gui.add_lbl_single('Select Box Cards', '#32a852', 460, 290)
         self.p_hand_6 = hand_sort(self.deck[:6])
         self.c_hand_6 = hand_sort(self.deck[6:12])
@@ -479,7 +479,6 @@ class MainCtl:
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    screen = app.primaryScreen()
     ctl = MainCtl()
     ctl.set_ui()
     sys.exit(app.exec_())

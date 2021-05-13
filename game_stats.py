@@ -56,14 +56,18 @@ class GameStats:
         grid = QGridLayout()
         win.setLayout(grid)
         for y in range(3):
-            lbl = QLabel(titles[y], alignment=QtCore.Qt.AlignCenter)
+            lbl = QLabel(titles[y])
+            lbl.setAlignment(QtCore.Qt.AlignCenter)
             grid.addWidget(lbl, 0, y)
         for x in range(17):
-            lbl1 = QLabel(mwl[2][x], alignment=QtCore.Qt.AlignRight)
+            lbl1 = QLabel(mwl[2][x])
+            lbl1.setAlignment(QtCore.Qt.AlignRight)
             grid.addWidget(lbl1, x + 1, 0)
-            lb2 = QLabel(str(self.p_stats[x]), alignment=QtCore.Qt.AlignCenter)
+            lb2 = QLabel(str(self.p_stats[x]))
+            lb2.setAlignment(QtCore.Qt.AlignCenter)
             grid.addWidget(lb2, x + 1, 1)
-            lb2 = QLabel(str(self.c_stats[x]), alignment=QtCore.Qt.AlignCenter)
+            lb2 = QLabel(str(self.c_stats[x]))
+            lb2.setAlignment(QtCore.Qt.AlignCenter)
             grid.addWidget(lb2, x + 1, 2)
         grid.addWidget(close_btn, 18, 1)
         close_btn.clicked.connect(win.close)
@@ -188,7 +192,8 @@ class GameStats:
 
     def game_score_tots(self):
         self.clear_btn.setEnabled(True)
-        self.timer = QTimer(interval=500)
+        self.timer = QTimer()
+        self.timer.setInterval(500)
         self.timer.timeout.connect(self.flashing_btn)
         self.timer.start()
         self.game_tots_btn.setEnabled(False)
@@ -196,7 +201,6 @@ class GameStats:
         self.box_tots_btn.setEnabled(False)
         self.peg_tots_btn.setEnabled(False)
         cur = self.user_db.cursor()
-        txt = 'Score Totals Per Game'
         play = cur.execute('''SELECT Score FROM player''')
         p_data = [x[0] for x in play.fetchall()]
         comp = cur.execute('''SELECT Score FROM comp''')
@@ -208,7 +212,8 @@ class GameStats:
 
     def hand_score_tots(self):
         self.clear_btn.setEnabled(True)
-        self.timer = QTimer(interval=500)
+        self.timer = QTimer()
+        self.timer.setInterval(500)
         self.timer.timeout.connect(self.flashing_btn)
         self.timer.start()
         self.game_tots_btn.setEnabled(False)
@@ -216,7 +221,6 @@ class GameStats:
         self.box_tots_btn.setEnabled(False)
         self.peg_tots_btn.setEnabled(False)
         cur = self.user_db.cursor()
-        txt = 'Hand Totals Per Game'
         play = cur.execute('''SELECT Hand_Total FROM player''')
         p_data = [x[0] for x in play.fetchall()]
         comp = cur.execute('''SELECT Hand_Total FROM comp''')
@@ -227,7 +231,8 @@ class GameStats:
 
     def box_score_tots(self):
         self.clear_btn.setEnabled(True)
-        self.timer = QTimer(interval=500)
+        self.timer = QTimer()
+        self.timer.setInterval(500)
         self.timer.timeout.connect(self.flashing_btn)
         self.timer.start()
         self.game_tots_btn.setEnabled(False)
@@ -235,7 +240,6 @@ class GameStats:
         self.box_tots_btn.setEnabled(False)
         self.peg_tots_btn.setEnabled(False)
         cur = self.user_db.cursor()
-        txt = 'Box Totals Per Game'
         play = cur.execute('''SELECT Box_Total FROM player''')
         p_data = [x[0] for x in play.fetchall()]
         comp = cur.execute('''SELECT Box_Total FROM comp''')
@@ -246,7 +250,8 @@ class GameStats:
 
     def peg_score_tots(self):
         self.clear_btn.setEnabled(True)
-        self.timer = QTimer(interval=500)
+        self.timer = QTimer()
+        self.timer.setInterval(500)
         self.timer.timeout.connect(self.flashing_btn)
         self.timer.start()
         self.game_tots_btn.setEnabled(False)
@@ -254,7 +259,6 @@ class GameStats:
         self.box_tots_btn.setEnabled(False)
         self.peg_tots_btn.setEnabled(False)
         cur = self.user_db.cursor()
-        txt = 'Peg Totals Per Game'
         play = cur.execute('''SELECT Peg_Total FROM player''')
         p_data = [x[0] for x in play.fetchall()]
         comp = cur.execute('''SELECT Peg_Total FROM comp''')
@@ -266,4 +270,3 @@ class GameStats:
 
 if __name__ == '__main__':
     pass
-
