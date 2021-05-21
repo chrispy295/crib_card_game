@@ -171,7 +171,7 @@ class MainCtl:
         self.main_gui.set_player_cards_initial(self.p_hand_6)
         ind1 = self.c_hand_6.index(self.c_crib[0])
         ind2 = self.c_hand_6.index(self.c_crib[1])
-        self.main_gui.set_comp_cards_initial(ind1, ind2)
+        self.main_gui.set_comp_cards_initial(ind1, ind2, self.c_hand_6)
         self.main_gui.d_flag = self.d_flag
         self.get_p_crib()
 
@@ -294,7 +294,7 @@ class MainCtl:
                 self.peg_brd.comp_move_peg_icon(self.c_hnd_obj.score)
                 if l_score[3] > 0:
                     self.flag_31 = 1
-        self.timer.singleShot(200, self.lay_ctl)
+        self.timer.singleShot(900, self.lay_ctl)
 
     def go_last_card(self):
         if self.turn_flag == 0:
