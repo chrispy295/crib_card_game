@@ -62,7 +62,7 @@ def lay_card_calc(l_pips, l_faces, hand):
         list_safe = [fce for fce in h_faces if lt + fce != 5 and lt + fce != 10 and lt + fce != 21 and lt + fce != 26]
         list_safe_pairs = [fce for fce in list_safe if list_safe.count(fce) >= 2 and lt + (3 * fce) <= 31]
         list_safe = [fce for fce in h_faces if lt + fce != 10 and lt + fce != 21 and lt + fce != 26]
-        list_no_10 = [fce for fce in h_faces if fce != 10]
+        list_no_10 = [fce for fce in h_faces if fce != 10 and lt + fce != 10 and fce != 5]
         diffs = [abs(l_pips[-1] - x) for x in h_pips]
         score_list = []
         for x in range(len(hand)):
@@ -95,16 +95,25 @@ def lay_card_calc(l_pips, l_faces, hand):
             card = hand[idx]
             return card
         elif list_no_10 and lt < 5:
+            print('list 10')
             val = max(list_no_10)
             idx = h_faces.index(val)
             card = hand[idx]
             return card
         elif list_safe:
-            val = max(list_safe)
-            idx = h_faces.index(val)
-            card = hand[idx]
-            return card
+            print('list safe')
+            if 10 < lt < 20:
+                val = min(list_safe)
+                idx = h_faces.index(val)
+                card = hand[idx]
+                return card
+            else:
+                val = max(list_safe)
+                idx = h_faces.index(val)
+                card = hand[idx]
+                return card
         else:
+            print('else')
             val = max(diffs)
             idx = diffs.index(val)
             card = hand[idx]
