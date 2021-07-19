@@ -171,7 +171,7 @@ class MainCtl:
         self.main_gui.set_player_cards_initial(self.p_hand_6)
         ind1 = self.c_hand_6.index(self.c_crib[0])
         ind2 = self.c_hand_6.index(self.c_crib[1])
-        self.main_gui.set_comp_cards_initial(ind1, ind2, self.c_hand_6)
+        self.main_gui.set_comp_cards_initial(ind1, ind2)
         self.main_gui.d_flag = self.d_flag
         self.get_p_crib()
 

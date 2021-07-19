@@ -95,14 +95,17 @@ def lay_card_calc(l_pips, l_faces, hand):
             card = hand[idx]
             return card
         elif list_no_10 and lt < 5:
-            print('list 10')
             val = max(list_no_10)
             idx = h_faces.index(val)
             card = hand[idx]
             return card
         elif list_safe:
-            print('list safe')
-            if 10 < lt < 20:
+            if lt == 10:
+                val = min(list_safe)
+                idx = h_faces.index(val)
+                card = hand[idx]
+                return card
+            elif 10 < lt < 16:
                 val = min(list_safe)
                 idx = h_faces.index(val)
                 card = hand[idx]
@@ -113,7 +116,7 @@ def lay_card_calc(l_pips, l_faces, hand):
                 card = hand[idx]
                 return card
         else:
-            print('else')
+            print('2nd lay else')
             val = max(diffs)
             idx = diffs.index(val)
             card = hand[idx]

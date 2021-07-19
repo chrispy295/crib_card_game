@@ -250,14 +250,13 @@ class MainGui(QMainWindow):
     def cut_box_set_slots(self, deck_img):
         deck_img.l_click.connect(lambda: self.cut_select(deck_img))
 
-    def set_comp_cards_initial(self, idx1, idx2, hnd):
+    def set_comp_cards_initial(self, idx1, idx2):
         self.comp_animations = GameAnimations()
         self.c_img_obj_ref = []
         path = os.path.join(self.base_dir, 'static/deck/bk.png')
         x = 0
         while x < 6:
             c_img_lbl = QLabel()
-            path = os.path.join(self.base_dir, 'static/deck/{}.png'.format(hnd[x]))
             pixmap = QPixmap(path)
             c_img_lbl.setPixmap(pixmap)
             c_img_lbl.setParent(self.main_brd)
